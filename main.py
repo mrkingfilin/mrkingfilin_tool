@@ -56,7 +56,7 @@ def nslookup_():
     clear()
     print('site domain:')
     inp = input()
-    a = nslookup.Nslookup(dns_servers=["1.1.1.1"], verbose=False, tcp=False).dns_lookup(domain=inp)
+    a = nslookup.Nslookup(dns_servers=["8.8.8.8"], verbose=False, tcp=False).dns_lookup(domain=inp)
     for i in a.answer:
         if i == a.answer[0]:
             print(colorama.Fore.RED +   '╔═══════════════╗')
