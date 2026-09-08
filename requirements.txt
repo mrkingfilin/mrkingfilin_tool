@@ -1,4 +1,4 @@
 ping3>=4.0.0
 colorama>=0.4.0
-python-nmap>=0.7.0
+python3-nmap>=1.9.1
 nslookup>=1.4.0
