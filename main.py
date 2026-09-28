@@ -2,6 +2,9 @@ import os
 import sys
 from ping3 import ping
 import colorama
+import nmap
+import nslookup
+
 menu=f'''{colorama.Fore.GREEN}
 ╔═══════════════════════════════════════════════════════╗
 ║ ██  ██  ▄▄▄▄ ▄▄  ▄▄ ▄▄ ▄█████ ▄▄   ▄▄ ▄██ ▄▄    ▄▄▄▄▄ ║
@@ -12,7 +15,7 @@ menu=f'''{colorama.Fore.GREEN}
 ║ [1] Local Network Scan                                ║
 ║ [2] IP Port Scan                                      ║
 ║ [3] Domain lookup                                     ║
-║ [4] Payloads                                          ║
+║ [4] Ping IP                                           ║
 ║ [0] Exit                                              ║
 ╚═══════════════════════════════════════════════════════╝'''
 
@@ -57,6 +60,12 @@ def localnetworkscan():
    ║ {i:13}║
    ╚══════╦═══════╝''')
 
+        if ip:
+            with open('localnetworkscan.txt', 'w+', encoding='utf-8') as file:
+                for i in iplist:
+                    file.write(f'{i}\n')
+                print(colorama.Fore.GREEN + 'result save in localnetworkscan.txt')
+
         input('Enter...')
 
 def ipportscan():
@@ -66,15 +75,58 @@ def ipportscan():
 
 def domainlookup():
     clear()
-    print('domainlookup')
-    input()
+    result = []
+    userinput = input('domain > ')
+    domain = nslookup.Nslookup().dns_lookup(userinput)
+    for i in domain.answer:
+        result.append(i)
+        if len(domain.answer) == 1:
+            print(f'''{colorama.Fore.BLUE}   ╔════════════════╗
+   ║ {i:15}║
+   ╚════════════════╝''')
+        elif i == domain.answer[0]:
+            print(f'''{colorama.Fore.BLUE}   ╔════════════════╗
+   ║ {i:15}║
+   ╚════════╦═══════╝''')
+        elif i == domain.answer[-1]:
+            print(f'''{colorama.Fore.BLUE}   ╔════════╩═══════╗
+   ║ {i:15}║
+   ╚════════════════╝''')
+        else:
+            print(f'''{colorama.Fore.BLUE}   ╔════════╩═══════╗
+   ║ {i:15}║
+   ╚════════╦═══════╝''')
 
-def payloads():
+    if len(result) >= 1:
+        with open(f'{userinput}.txt', 'w+', encoding='utf-8') as file:
+            for i in result:
+                file.write(f'{i}\n')
+            print(f'Result save in {userinput}.txt')
+    input('Enter...')
+
+def pingip():
     clear()
-    print('payloads')
-    input()
+    multiple = False
+    ip = input('target ip> ')
+    if ip.find('.txt') >= 0:
+        multiple = True
 
-commands = [localnetworkscan, ipportscan, domainlookup, payloads, sys.exit]
+    if multiple:
+        with open(ip, 'r+', encoding='utf-8') as file:
+            for ip in file:
+                result = ping(ip.strip('\n'))
+                print(f'{ip.strip('\n')} >> {result}ms')
+        input('Enter...')
+    else:
+        result = ping(ip)
+        if result:
+            print(f'{ip} >> {result}ms')
+        else:
+            print('No connection')
+        input('Enter...')
+
+
+commands = [localnetworkscan, ipportscan, domainlookup, pingip, sys.exit]
 comnum = [1, 2, 3, 4, 0]
 def main():
     clear()
