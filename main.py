@@ -2,7 +2,7 @@ import os
 import sys
 from ping3 import ping
 import colorama
-import nmap
+import nmap3
 import nslookup
 
 menu=f'''{colorama.Fore.GREEN}
