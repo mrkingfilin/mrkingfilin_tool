@@ -70,8 +70,26 @@ def localnetworkscan():
 
 def ipportscan():
     clear()
-    print('ipportscan')
-    input()
+    try:
+        user = input('target ip> ')
+        nm = nmap3.Nmap()
+        result = nm.scan_top_ports(user)
+        print('╔═══════════════════════════════╗')
+        print(f'║TARGET: {user:23}║')
+        print('╠════╦══════════╦═══════════════╣')
+        for i in result[user]['ports']:
+            color = ''
+            if i['state']=='open':
+                color = colorama.Fore.GREEN
+            elif i['state']=='filtered':
+                color = colorama.Fore.YELLOW
+            elif i['state']=='closed':
+                color = colorama.Fore.RED
+            print(f'║{i['portid']:4}║{color}{i['state']:10}{colorama.Fore.WHITE}║ {i['service']['name']:14}║')
+        print('╚════╩══════════╩═══════════════╝')
+        input('Enter...')
+    except:
+        pass
 
 def domainlookup():
     clear()
@@ -81,21 +99,21 @@ def domainlookup():
     for i in domain.answer:
         result.append(i)
         if len(domain.answer) == 1:
-            print(f'''{colorama.Fore.BLUE}   ╔════════════════╗
-   ║ {i:15}║
-   ╚════════════════╝''')
+            print(f'''{colorama.Fore.BLUE}   ╔═════════════════╗
+   ║ {i:16}║
+   ╚═════════════════╝''')
         elif i == domain.answer[0]:
-            print(f'''{colorama.Fore.BLUE}   ╔════════════════╗
-   ║ {i:15}║
-   ╚════════╦═══════╝''')
+            print(f'''{colorama.Fore.BLUE}   ╔═════════════════╗
+   ║ {i:16}║
+   ╚════════╦════════╝''')
         elif i == domain.answer[-1]:
-            print(f'''{colorama.Fore.BLUE}   ╔════════╩═══════╗
-   ║ {i:15}║
-   ╚════════════════╝''')
+            print(f'''{colorama.Fore.BLUE}   ╔════════╩════════╗
+   ║ {i:16}║
+   ╚═════════════════╝''')
         else:
-            print(f'''{colorama.Fore.BLUE}   ╔════════╩═══════╗
-   ║ {i:15}║
-   ╚════════╦═══════╝''')
+            print(f'''{colorama.Fore.BLUE}   ╔════════╩════════╗
+   ║ {i:16}║
+   ╚════════╦════════╝''')
 
     if len(result) >= 1:
         with open(f'{userinput}.txt', 'w+', encoding='utf-8') as file:
