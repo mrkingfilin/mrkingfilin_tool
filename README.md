@@ -48,4 +48,5 @@
    pip install -r requirements.txt
 ⚙️ Использование
 Запустите основной скрипт через терминал: 
+  ```bash
   python main.py
