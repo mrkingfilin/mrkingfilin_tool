@@ -41,27 +41,11 @@
 
 1. Склонируйте репозиторий или скачайте исходный код:
    ```bash
-   git clone [https://github.com/your-username/network-utility.git](https://github.com/your-username/network-utility.git)
+   git clone https://github.com/uglysm1le/network-utility.git
    cd network-utility
 2. Установите необходимые библиотеки:
    ```bash
-   pip install ping3 colorama python-nmap nslookup
+   pip install -r requirements.txt
 ⚙️ Использование
 Запустите основной скрипт через терминал: 
-  python test.py
-После запуска появится главная консольная панель утилиты:
-╔════════════════════════menu═══════════════════════════╗
-║ [1] Local Network Scan                                ║
-║ [2] IP Port Scan                                      ║
-║ [3] Domain lookup                                     ║
-║ [4] Ping IP                                           ║
-║ [0] Exit                                              ║
-╚═══════════════════════════════════════════════════════╝
-Введите номер нужной функции и следуйте подсказкам на экране.
-
----
-
-##📄 Создаваемые файлы
-  В процессе работы программа может автоматически создавать файлы с результатами:
-  localnetworkscan.txt — результат сканирования локальной сети.
-  <имя_домена>.txt — результат работы функции Domain lookup.
+  python main.py
